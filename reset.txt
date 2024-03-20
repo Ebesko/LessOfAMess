@@ -1,0 +1,9 @@
+Kernfach Geschichte: 
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Nebenfach 1:
+None
+No Type
+None
+Nebenfach 2:
+ None
+None
