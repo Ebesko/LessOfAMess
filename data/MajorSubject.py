@@ -51,7 +51,7 @@ class Major:
         #print(self.df['Bezeichnung', 'LP1'])
         #print(self.df[self.columns_specific])
         #base = self.df[self.columns_specific]
-        #print(base['Bezeichnung'])
+        #print(base)
 
     def title(self):
         return self.title_text

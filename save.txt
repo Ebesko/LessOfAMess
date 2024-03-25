@@ -3,7 +3,7 @@ Kernfach Geschichte:
 Nebenfach 1:
 None
 No Type
-[0, 0, 0, 0, 0, 10, 0, 10, 0, 10, 10, 0, 0, 0]
-Nebenfach 2:
 None
+Nebenfach 2:
+ None
 None

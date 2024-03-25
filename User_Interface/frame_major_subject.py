@@ -11,16 +11,21 @@ class CreateFrameMajorSubject(ctk.CTkFrame):
     More Options to come:
     ---------------------------------------- checkboxes have value of ECTS, label shows the value
     ---------------------------------------- can save progress
-    - can check Studien- and Prüfungleistung independantly, even with modules with several Studienleistung
+    ...- show pflicht and wahlplicht ....HOW IS THE BETTER WAY ?
+    - FIX THE 'MINOR ALREADY CHOOSEN' BUG
     - shows semester and can select it to show only this one.
-    - show pflicht and wahlplicht
-    - can put a marker on wahlpflicht to note what is intended to do
-    - possibility of notes about a module (appears in a bulle)"""
+    - can check Studien- and Prüfungleistung independantly, even with modules with several Studienleistung
+    - can put a marker on wahlpflicht to note what is intended to do (the user choice so far)
+    - possibility of notes about a module (appears in a bulle)
+    OR a bulle for the leistungspunkte or something"""
 
     def __init__(self, master, dataframe_title, dataframe, **kwargs):
         super().__init__(master, **kwargs)
         self.dataframe = dataframe
         self.alt = dataframe_title
+
+        self.my_font = ctk.CTkFont(family="Helvetica", size=16, underline=True)
+        self.my_font1 = ctk.CTkFont(family="Helvetica", size=16)
 
         # INIT SELF
         self.rowconfigure((0, 1, 2), weight=1)
@@ -46,14 +51,30 @@ class CreateFrameMajorSubject(ctk.CTkFrame):
 
         # CHECKBOXES
         for i in range(len(self.dataframe)):
-            self.dict_major_values["chk_major_value_%02d" % i] = ctk.IntVar()
-            checkbox = ctk.CTkCheckBox(self.under_frame_chk, text=self.dataframe.iloc[i]['Bezeichnung'],
-                                       variable=self.dict_major_values["chk_major_value_%02d" % i],
-                                       onvalue=self.dataframe.iloc[i]['LP1'],
-                                       offvalue=0,
-                                       command=lambda: self.MajorPoints())
-            checkbox.grid(row=i, column=0, sticky='w', padx=5, pady=5)
-            self.dict_major_chk["chk_major_%02d" % i] = checkbox
+            #print(self.dataframe.iloc[i]['Bindung3'])
+            if self.dataframe.iloc[i]['Bindung3'] == "Pflicht":
+                self.dict_major_values["chk_major_value_%02d" % i] = ctk.IntVar()
+                checkbox = ctk.CTkCheckBox(self.under_frame_chk, text="Pflicht: " + str(self.dataframe.iloc[i]['Bezeichnung']),
+                                           variable=self.dict_major_values["chk_major_value_%02d" % i],
+                                           onvalue=self.dataframe.iloc[i]['LP1'],
+                                           offvalue=0,
+                                           command=lambda: self.MajorPoints(),
+                                           text_color='black',
+                                           font= self.my_font1)
+                checkbox.grid(row=i, column=0, sticky='w', padx=5, pady=5)
+                self.dict_major_chk["chk_major_%02d" % i] = checkbox
+
+            if self.dataframe.iloc[i]['Bindung3'] == "Wahl­pflicht" or self.dataframe.iloc[i]['Bindung3'] == "Wahl-pflicht":
+                self.dict_major_values["chk_major_value_%02d" % i] = ctk.IntVar()
+                checkbox = ctk.CTkCheckBox(self.under_frame_chk, text="Wahlpflicht: " + str(self.dataframe.iloc[i]['Bezeichnung']),
+                                           variable=self.dict_major_values["chk_major_value_%02d" % i],
+                                           onvalue=self.dataframe.iloc[i]['LP1'],
+                                           offvalue=0,
+                                           command=lambda: self.MajorPoints(),
+                                           text_color='grey',
+                                           font=self.my_font)
+                checkbox.grid(row=i, column=0, sticky='w', padx=5, pady=5)
+                self.dict_major_chk["chk_major_%02d" % i] = checkbox
 
         # LEISTUNGSPUNKTE / ECTS / POINTS
         self.total_major_points = 0
@@ -75,5 +96,6 @@ class CreateFrameMajorSubject(ctk.CTkFrame):
 
     def load(self, values):
         for i, chk in enumerate(self.dict_major_chk):
-            if values[i] != 0:
-                self.dict_major_chk[chk].toggle()
+            if len(self.dict_major_chk) == i:
+                if values[i] != 0:
+                    self.dict_major_chk[chk].toggle()
