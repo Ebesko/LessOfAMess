@@ -1,6 +1,6 @@
 import customtkinter as ctk
-from User_Interface.checkboxes import CheckboxesValued
 from data.MinorSubject import Minor
+from User_Interface.checkboxes import CheckboxesValued
 
 
 class CreateMiniMinorFrame(ctk.CTkFrame):
@@ -24,8 +24,9 @@ class CreateMiniMinorFrame(ctk.CTkFrame):
         self.minor_choice_var = ctk.IntVar()
         self.minor_menu_var = ctk.StringVar(value="Wählen...")
         self.minor_list = ["Wählen..."]
-        for key in self.dict_minors:
-            self.minor_list.append(key)
+        if self.dict_minors is not None:
+            for key in self.dict_minors:
+                self.minor_list.append(key)
         self.minor_menu = ctk.CTkOptionMenu(self,
                                             variable=self.minor_menu_var,
                                             values=self.minor_list,
@@ -71,12 +72,12 @@ class CreateMiniMinorFrame(ctk.CTkFrame):
             self.actual.delframe()
             if choice != "Wählen...":
                 url = self.dict_minors[choice]
-                dframed = Minor(url).dfminor()
+                dframed = Minor(url, choice).dfminor()
                 self.actual = CheckboxesValued(self.extra_frame, dframed, validity, points=30)
         else:
             if choice in self.dict_minors:
                 url = self.dict_minors[choice]
-                dframed = Minor(url).dfminor()
+                dframed = Minor(url, choice).dfminor()
                 self.actual = CheckboxesValued(self.extra_frame, dframed, validity, points=30)
 
     ### SAVE FUNCTIONS

@@ -1,11 +1,11 @@
-import customtkinter as ctk
+truc = "https://ekvv.uni-bielefeld.de/sinfo/publ/variante/323344186?m"
+print(truc[50:59])
 
-app = ctk.CTk()
-app.geometry("800x800")
-ctk.set_appearance_mode("light")
+#pip install py2exe
 
-app.title("TEST OF SHOW-HIDE")
-app.rowconfigure((0, 1, 2), weight=1)
-app.columnconfigure((0, 1, 2), weight=1)
 
-app.mainloop()
+                #self.minor_file = open("possible_minors.txt", "r")
+                #self.content = self.minor_file.read()
+                #self.minor_file.close()
+                #self.dict_minors = ast.literal_eval(self.content)
+                #print(self.dict_minors)

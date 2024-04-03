@@ -1,9 +1,9 @@
 Kernfach Geschichte: 
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Nebenfach 1:
-None
-No Type
-None
+Computerlinguistik
+minors_data
+[0, 0, 0, 0, 0, 0, 0, 0]
 Nebenfach 2:
- None
+None
 None

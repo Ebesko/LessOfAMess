@@ -4,10 +4,15 @@ from User_Interface.checkboxes import CheckboxesValued
 
 
 class CreateMinorFrame(ctk.CTkFrame):
-    def __init__(self, master, dict_minors, dict_miniminors, miniframe, **kwargs):
+    def __init__(self, master, source, miniframe, **kwargs):
         super().__init__(master, **kwargs)
-        self.dict_minors = dict_minors
-        self.dict_miniminors = dict_miniminors
+        self.object_source = source
+
+        #self.dict_minors = dict_minors
+        #self.dict_miniminors = dict_miniminors
+        self.dict_minors = self.object_source.minors()
+        self.dict_miniminors = self.object_source.mini_minors()
+
         self.miniframe = miniframe
         self.actual = None
 
@@ -23,7 +28,7 @@ class CreateMinorFrame(ctk.CTkFrame):
         self.label_miniminor = ctk.CTkLabel(self, text="...Oder erste kleine Nebenfach: ")
         self.label_miniminor.grid(row=1, column=0, sticky="n", padx=10, pady=10)
 
-        # MENU MINORS----------------------------------------------------
+        # MENU MINORS-----------------------------------------------------------------------
         self.minor_choice_var = ctk.IntVar()
         self.minor_menu_var = ctk.StringVar(value="Wählen...")
 
@@ -39,7 +44,7 @@ class CreateMinorFrame(ctk.CTkFrame):
         self.minor_menu.set("Wählen...")
         self.minor_menu.grid(row=0, column=1, sticky="n", padx=10, pady=10)
 
-        # MENU MINI-MINORS----------------------------------------------
+        # MENU MINI-MINORS----------------------------------------------------------------
         self.miniminor_choice_var = ctk.IntVar()
         self.miniminor_menu_var = ctk.StringVar(value="Wählen...")
 
@@ -71,12 +76,12 @@ class CreateMinorFrame(ctk.CTkFrame):
         if choice != "Wählen..." and self.actual is not None:
             self.actual.delframe()
             url = self.dict_minors[choice]
-            dframed = Minor(url).dfminor()
+            dframed = Minor(url, choice).dfminor()
             self.actual = CheckboxesValued(self.extra_frame, dframed, True)
         else:
             if choice in self.dict_minors:
                 url = self.dict_minors[choice]
-                dframed = Minor(url).dfminor()
+                dframed = Minor(url, choice).dfminor()
                 self.actual = CheckboxesValued(self.extra_frame, dframed, True)
 
     def get_df_mini(self, choice, validity):
@@ -84,7 +89,7 @@ class CreateMinorFrame(ctk.CTkFrame):
             self.actual.delframe()
         if choice != "Wählen...":
             url = self.dict_miniminors[choice]
-            dframed = Minor(url).dfminor()
+            dframed = Minor(url, choice).dfminor()
             self.actual = CheckboxesValued(self.extra_frame, dframed, validity, points=30)
 
     ### FUNCTION TO CLEAN UP WHEN LOADING
@@ -119,10 +124,17 @@ class CreateMinorFrame(ctk.CTkFrame):
             self.mini_clean(choice, False)
             self.miniminor_menu.set("Wählen...")
 
+
+
+    def minor_one_df_update(self):
+        self.object_source.force_minor_update()
+
+
+
     ### SAVE FUNCTIONS
     def save1(self):
         if self.minor_menu.get() != "Wählen...":
-            return str(self.minor_menu.get() + "\nminor")
+            return str(self.minor_menu.get() + "\nminors_data")
         if self.miniminor_menu.get() != "Wählen...":
             return str(self.miniminor_menu.get() + "\nmini")
         else:
@@ -136,7 +148,7 @@ class CreateMinorFrame(ctk.CTkFrame):
 
     ### LOAD FUNCTIONS
     def load_subject(self, subject, type):
-        if type == "minor":
+        if type == "minors_data":
             self.minor_menu_var.set(subject)
             self.get_df_minor(subject)
         if type == "mini":
@@ -145,9 +157,10 @@ class CreateMinorFrame(ctk.CTkFrame):
 
     def load_progress(self, values):
         if self.actual is not None:
-            for i, chk in enumerate(self.actual.dict_chk):
-                if values[i] != 0:
-                    self.actual.dict_chk[chk].toggle()
+            if values is not None:
+                for i, chk in enumerate(self.actual.dict_chk):
+                    if values[i] != 0:
+                        self.actual.dict_chk[chk].toggle()
 
     # EXTRA FOR RESET
     def del_error_frame(self):

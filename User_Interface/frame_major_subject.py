@@ -11,18 +11,22 @@ class CreateFrameMajorSubject(ctk.CTkFrame):
     More Options to come:
     ---------------------------------------- checkboxes have value of ECTS, label shows the value
     ---------------------------------------- can save progress
-    ...- show pflicht and wahlplicht ....HOW IS THE BETTER WAY ?
+    ...- show pflicht and wahlplicht ....HOW IS THE BETTER WAY ? Henrik said a Frame
+    ---------------------------------------- Add .csv save and load instead of loading everything from the web (possible minors dict in txt file)
+    - add possibility of update manually if doubt
     - FIX THE 'MINOR ALREADY CHOOSEN' BUG
+    - FIX MISSING PROFIL ZB INFORMATIK
     - shows semester and can select it to show only this one.
     - can check Studien- and Prüfungleistung independantly, even with modules with several Studienleistung
     - can put a marker on wahlpflicht to note what is intended to do (the user choice so far)
     - possibility of notes about a module (appears in a bulle)
     OR a bulle for the leistungspunkte or something"""
 
-    def __init__(self, master, dataframe_title, dataframe, **kwargs):
+    def __init__(self, master, df_object, **kwargs):
         super().__init__(master, **kwargs)
-        self.dataframe = dataframe
-        self.alt = dataframe_title
+        self.df_object = df_object
+        self.dataframe = df_object.dfmajor()
+        self.alt = df_object.title()
 
         self.my_font = ctk.CTkFont(family="Helvetica", size=16, underline=True)
         self.my_font1 = ctk.CTkFont(family="Helvetica", size=16)
@@ -51,7 +55,6 @@ class CreateFrameMajorSubject(ctk.CTkFrame):
 
         # CHECKBOXES
         for i in range(len(self.dataframe)):
-            #print(self.dataframe.iloc[i]['Bindung3'])
             if self.dataframe.iloc[i]['Bindung3'] == "Pflicht":
                 self.dict_major_values["chk_major_value_%02d" % i] = ctk.IntVar()
                 checkbox = ctk.CTkCheckBox(self.under_frame_chk, text="Pflicht: " + str(self.dataframe.iloc[i]['Bezeichnung']),
@@ -76,6 +79,8 @@ class CreateFrameMajorSubject(ctk.CTkFrame):
                 checkbox.grid(row=i, column=0, sticky='w', padx=5, pady=5)
                 self.dict_major_chk["chk_major_%02d" % i] = checkbox
 
+            #if self.dataframe.iloc[i]['Bindung3'] == "1.":
+
         # LEISTUNGSPUNKTE / ECTS / POINTS
         self.total_major_points = 0
         self.label_major_points = ctk.CTkLabel(self, text="Leistungspunkte: " + str(self.total_major_points))
@@ -90,6 +95,9 @@ class CreateFrameMajorSubject(ctk.CTkFrame):
             self.label_major_points.configure(text_color="black")
         if self.total_major_points > 60:
             self.label_major_points.configure(text_color="red")
+
+    def major_df_update(self):
+        self.df_object.force_major_update()
 
     def save(self):
         return self.dict_major_values

@@ -31,10 +31,10 @@ class loading:
 
 
     def restore_major(self):
-        self.kf.load(ast.literal_eval(self.content[1]))  # liste chk major value
+        self.kf.load(ast.literal_eval(self.content[1]))  # list chk major value
 
     def restore_minor(self):
-        if self.content[3] != " None": #3 is minor title or None, 4 is Minor Typ or No Type
+        if self.content[3] != " None": #3 is minors_data title or None, 4 is Minor Typ or No Type
             self.nbf1.load_subject(self.content[3].strip(), self.content[4].strip())
             self.nbf1.load_progress(ast.literal_eval(self.content[5]))
 

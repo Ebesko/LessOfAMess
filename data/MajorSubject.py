@@ -3,16 +3,27 @@ import requests
 import pandas as pd
 import customtkinter as ctk
 import re
+from pathlib import Path
 
 # HISTORY
 url_main_history = "https://ekvv.uni-bielefeld.de/sinfo/publ/variante/80471673?m"
 
+
 class Major:
     """To get the modules names, points, semester and status for History as a dataframe"""
+
     def __init__(self, url_major):
         self.url = url_major
+        self.title_text = "Geschichtswissenschaft Kernfach (fw)"
+        self.columns_specific = ['Bezeichnung', 'LP1', 'Empf. Beginn2', 'Bindung3']
 
-        self.response = requests.get(url_major)
+        try:
+            self.df = pd.read_csv("major.csv")
+        except:
+            self.df = pd.read_csv("./data/major.csv")
+
+    def force_major_update(self):
+        self.response = requests.get(self.url)
         self.soup = BeautifulSoup(self.response.text, 'html.parser')
 
         # Assuming the table title is in an h3 element and the table is in a table element
@@ -37,7 +48,6 @@ class Major:
 
         # Delete rows containing the word in column
         self.df = self.df[~self.df['Kürzel'].str.contains(self.word_to_check)]
-        self.columns_specific = ['Bezeichnung', 'LP1', 'Empf. Beginn2', 'Bindung3']
 
         self.index_stop = self.df.index[self.df['uPr6'] == "Auslaufende Module"].tolist()
         if self.index_stop:
@@ -47,11 +57,8 @@ class Major:
         if self.index_stop2:
             df = self.df.iloc[0:self.index_stop2[0]]
 
-        #print(self.title_text)
-        #print(self.df['Bezeichnung', 'LP1'])
-        #print(self.df[self.columns_specific])
-        #base = self.df[self.columns_specific]
-        #print(base)
+        self.out_major = self.df[self.columns_specific]
+        self.updatecsvmajor()
 
     def title(self):
         return self.title_text
@@ -59,6 +66,5 @@ class Major:
     def dfmajor(self):
         return self.df[self.columns_specific]
 
-
-test1 = Major(url_main_history)
-#print(Major(url_main_history))
+    def updatecsvmajor(self):
+        self.out_major.to_csv("../data/major.csv")
