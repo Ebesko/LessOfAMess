@@ -23,7 +23,7 @@ class loading:
         self.restore_miniminor()
 
     def reset_all(self):
-        self.restore_major()
+        self.kf.reset() # Pb vient du fait que on utilise pas la bonne fct prévue dans major
         self.nbf1.all_cleaned()
         self.nbf1.del_error_frame()
         self.nbf2.all_cleaned()
@@ -31,7 +31,7 @@ class loading:
 
 
     def restore_major(self):
-        self.kf.load(ast.literal_eval(self.content[1]))  # list chk major value
+        self.kf.load(ast.literal_eval(self.content[1]))
 
     def restore_minor(self):
         if self.content[3] != " None": #3 is minors_data title or None, 4 is Minor Typ or No Type

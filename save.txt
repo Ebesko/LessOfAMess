@@ -1,9 +1,9 @@
 Kernfach Geschichte: 
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Nebenfach 1:
-Computerlinguistik
+Anglistik: British and American Studies
 minors_data
-[0, 0, 0, 0, 0, 0, 0, 0]
+[0, 0, 0, 0, 0, 0, 0, 0, 0]
 Nebenfach 2:
 None
 None

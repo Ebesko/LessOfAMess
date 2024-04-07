@@ -24,6 +24,7 @@ class CreateFrameMajorSubject(ctk.CTkFrame):
 
     def __init__(self, master, df_object, **kwargs):
         super().__init__(master, **kwargs)
+        self.master = master
         self.df_object = df_object
         self.dataframe = df_object.dfmajor()
         self.alt = df_object.title()
@@ -89,21 +90,34 @@ class CreateFrameMajorSubject(ctk.CTkFrame):
     def MajorPoints(self):
         self.total_major_points = sum(var.get() for var in self.dict_major_values.values())
         self.label_major_points.configure(text="Leistungspunkte: " + str(self.total_major_points))
-        if self.total_major_points == 60:
+        if self.total_major_points == 90:
             self.label_major_points.configure(text_color="green")
-        if self.total_major_points < 60:
+        if self.total_major_points < 90:
             self.label_major_points.configure(text_color="black")
-        if self.total_major_points > 60:
+        if self.total_major_points > 90:
             self.label_major_points.configure(text_color="red")
 
     def major_df_update(self):
         self.df_object.force_major_update()
+        self.refresh()
+
+    def refresh(self):
+        self.destroy()
+        self.__init__(self.master, self.df_object)
 
     def save(self):
         return self.dict_major_values
 
+    def reset(self):
+        for chk in self.dict_major_chk:
+            self.dict_major_chk[chk].deselect()
+
     def load(self, values):
+        """This loads the save. In case of more Module are added, it should be setting
+        them to 0 without ignoring or throwing an error"""
+        while len(self.dict_major_chk) > len(values):
+            values.append(0)
         for i, chk in enumerate(self.dict_major_chk):
-            if len(self.dict_major_chk) == i:
+            if len(self.dict_major_chk) == len(values):
                 if values[i] != 0:
                     self.dict_major_chk[chk].toggle()

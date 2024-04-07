@@ -17,7 +17,7 @@ class Minor:
         self.filename = Path("./minors_data/" + self.url[50:58] + "_" + self.title_text + ".csv")
         self.filename1 = Path("./data/minors_data/" + self.url[50:58] + "_" + self.title_text + ".csv")
 
-        if Path("../minors_data/").exists():
+        if Path("./minors_data/").exists():
             self.filename = "./minors_data/" + self.url[50:58] + "_" + self.title_text + ".csv"
 
         if Path("./data/minors_data/").exists():
@@ -33,13 +33,12 @@ class Minor:
         self.response = requests.get(self.url)
         self.soup = BeautifulSoup(self.response.text, 'html.parser')
 
-        # Assuming the table title is in an h3 element and the table is in a table element
-        self.table_titles = self.soup.find_all('h1')  # Adjust the tag accordingly
-        self.tables = self.soup.find_all('table')  # Adjust the tag accordingly
+        # Assuming the table title is in an h1 element and the table is in a table element
+        self.table_titles = self.soup.find_all('h1')
+        self.tables = self.soup.find_all('table')
 
         # Iterate through each title and table
         for title, table in zip(self.table_titles, self.tables):
-            # Extract the title text
             self.title_text = title.get_text(strip=True).replace('\n', ' ').replace('\r', ' ').replace('\t',
                                                                                                            ' ').replace(
                     'Nebenfach (fw)', ' Nebenfach (fw)').replace('Kernfach (fw)', ' Kernfach (fw)')

@@ -40,7 +40,7 @@ class CreateMiniMinorFrame(ctk.CTkFrame):
         self.extra_frame.columnconfigure((0), weight=1)
         self.extra_frame.grid(row=2, column=0, columnspan=2, sticky="nsew")
 
-    #GET MINOR
+    # GET MINOR
     def get_other_frame(self, minor1):
         self.minor1 = minor1
 
@@ -49,8 +49,9 @@ class CreateMiniMinorFrame(ctk.CTkFrame):
     def reset_minimenu(self):
         if self.minor_menu != "Wählen..." and self.actual is not None:
             self.actual.delframe()
+            self.actual.del_error_frame1()
             self.minor_menu.set("Wählen...")
-    # TO PASS TO OTHER FRAME FOR MINI-MINOR INCOMPATIBILITIES
+    # TO PASS TO OTHER FRAME FOR CHECKING MINI-MINOR INCOMPATIBILITIES
     def gives_minimenu(self):
         return self.minor_menu_var
 
@@ -95,11 +96,13 @@ class CreateMiniMinorFrame(ctk.CTkFrame):
             return None
 
     ### FUNCTIONS TO LOAD
+    ## RESET
     def all_cleaned(self):
         if self.actual is not None:
             self.actual.delframe()
         self.minor_menu_var.set("Wählen...")
 
+    ## RESTORE
     def restore_subject(self, subject):
         self.minor_menu_var.set(subject)
         if subject != "Wählen...":

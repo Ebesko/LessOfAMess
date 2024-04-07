@@ -8,7 +8,6 @@ from pathlib import Path
 # HISTORY
 url_main_history = "https://ekvv.uni-bielefeld.de/sinfo/publ/variante/80471673?m"
 
-
 class Major:
     """To get the modules names, points, semester and status for History as a dataframe"""
 
@@ -67,4 +66,4 @@ class Major:
         return self.df[self.columns_specific]
 
     def updatecsvmajor(self):
-        self.out_major.to_csv("../data/major.csv")
+        self.out_major.to_csv("../LessOfAMess/data/major.csv")

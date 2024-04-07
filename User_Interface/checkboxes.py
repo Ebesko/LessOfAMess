@@ -60,11 +60,13 @@ class CheckboxesValued(ctk.CTkFrame):
 
         if self.validity is False:
             self.delframe()
+            self.del_error_frame1()
             self.same_miniminor_frame.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
 
 
         if self.validity is True:
             if self.same_miniminor_frame is not None:
+                print('true')
                 self.same_miniminor_frame.grid_forget()
 
     def points(self):
@@ -83,7 +85,13 @@ class CheckboxesValued(ctk.CTkFrame):
         self.frame_chk.grid_forget()
 
     def del_error_frame1(self):
-        self.same_miniminor_frame.grid_forget()
+        print('pruk')
+        self.same_miniminor_frame.destroy()
+        self.same_miniminor_frame = ctk.CTkFrame(self.master)
+        self.label_same_miniminor = ctk.CTkLabel(self.same_miniminor_frame,
+                                                 text="Dieses Fach war schon gewählt. Bitte anderes Fach wählen.")
+        self.label_same_miniminor.grid(sticky="nsew", padx=10, pady=10)
+
 
     def save(self):
         return self.dict_values

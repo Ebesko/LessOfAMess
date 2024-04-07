@@ -57,7 +57,7 @@ class WindowMained:
         self.update_menu.add_command(label="Update Major",
                                    command=lambda: self.major_frame.major_df_update())
         self.update_menu.add_command(label="Update Minors",
-                                     command=lambda: print('Update 2'))
+                                     command=lambda: self.minor_frame.minor_one_df_update())
 
         ### Sogennant cemtary of the mess:
         # file_menu.add_command(label="Close", command=lambda: print("4"))

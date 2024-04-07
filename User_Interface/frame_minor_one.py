@@ -6,17 +6,14 @@ from User_Interface.checkboxes import CheckboxesValued
 class CreateMinorFrame(ctk.CTkFrame):
     def __init__(self, master, source, miniframe, **kwargs):
         super().__init__(master, **kwargs)
+        self.master = master
         self.object_source = source
 
-        #self.dict_minors = dict_minors
-        #self.dict_miniminors = dict_miniminors
         self.dict_minors = self.object_source.minors()
         self.dict_miniminors = self.object_source.mini_minors()
 
         self.miniframe = miniframe
         self.actual = None
-
-        #self.other = self.miniframe.gives_minimenu()
 
         self.rowconfigure((0, 1, 2, 3), weight=1)
         self.columnconfigure((0, 1), weight=1)
@@ -73,8 +70,11 @@ class CreateMinorFrame(ctk.CTkFrame):
 
     ### FUNCTIONS TO GET THE CHECKLIST OF MODULES (MINOR OR MINI-MINOR)
     def get_df_minor(self, choice):
-        if choice != "Wählen..." and self.actual is not None:
+        if self.actual is not None:
             self.actual.delframe()
+        if choice != "Wählen...":
+        #if choice != "Wählen..." and self.actual is not None:
+            # self.actual.delframe()
             url = self.dict_minors[choice]
             dframed = Minor(url, choice).dfminor()
             self.actual = CheckboxesValued(self.extra_frame, dframed, True)
@@ -96,6 +96,7 @@ class CreateMinorFrame(ctk.CTkFrame):
     def all_cleaned(self):
         if self.actual is not None:
             self.actual.delframe()
+            self.del_error_frame()
         self.minor_menu_var.set("Wählen...")
         self.miniminor_menu_var.set("Wählen...")
 
@@ -108,6 +109,7 @@ class CreateMinorFrame(ctk.CTkFrame):
     # FUNCTION TO RESET ALL MINI-MINORS WHEN MINOR CHOOSEN
     def minor_clean(self, choice):
         self.get_df_minor(choice)
+        self.del_error_frame()
         self.miniframe.reset_minimenu()
         self.miniminor_menu.set("Wählen...")
 
@@ -117,19 +119,26 @@ class CreateMinorFrame(ctk.CTkFrame):
 
     # FUNCTION TO AVOID 2 SAME MINI-MINORS
     def different_miniminor(self, choice):
-        """when mini choosen, compare with other mini, if same, frame not same mini. else do normally (miniclean or minorclean)"""
+        """when mini choosen, compare with other mini, if same, frame not same mini.
+        else do normally (miniclean or minorclean)"""
         if self.miniminor_menu_var.get() != self.miniframe.gives_minimenu().get():
+            self.del_error_frame()
             self.mini_clean(choice, True)
         else:
             self.mini_clean(choice, False)
             self.miniminor_menu.set("Wählen...")
 
-
-
+    ### UPDATE FUNCTIONS
     def minor_one_df_update(self):
+        # self.object_source.force_minor_update()
+        # self.object_source.updatecsvminor()
+
         self.object_source.force_minor_update()
+        self.refresh()
 
-
+    def refresh(self):
+        self.destroy()
+        self.__init__(self.master, source=self.object_source, miniframe=self.miniframe)
 
     ### SAVE FUNCTIONS
     def save1(self):
@@ -164,4 +173,5 @@ class CreateMinorFrame(ctk.CTkFrame):
 
     # EXTRA FOR RESET
     def del_error_frame(self):
-        self.actual.del_error_frame1()
+        if self.actual is not None:
+            self.actual.del_error_frame1()
