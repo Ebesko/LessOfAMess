@@ -66,8 +66,8 @@ class CheckboxesValued(ctk.CTkFrame):
 
         if self.validity is True:
             if self.same_miniminor_frame is not None:
-                print('true')
                 self.same_miniminor_frame.grid_forget()
+                self.del_error_frame1()
 
     def points(self):
         """Calculate the sum of the points according to checked modules to update the label showing it.
@@ -85,7 +85,6 @@ class CheckboxesValued(ctk.CTkFrame):
         self.frame_chk.grid_forget()
 
     def del_error_frame1(self):
-        print('pruk')
         self.same_miniminor_frame.destroy()
         self.same_miniminor_frame = ctk.CTkFrame(self.master)
         self.label_same_miniminor = ctk.CTkLabel(self.same_miniminor_frame,

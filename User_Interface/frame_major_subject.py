@@ -29,8 +29,8 @@ class CreateFrameMajorSubject(ctk.CTkFrame):
         self.dataframe = df_object.dfmajor()
         self.alt = df_object.title()
 
-        self.my_font = ctk.CTkFont(family="Helvetica", size=16, underline=True)
-        self.my_font1 = ctk.CTkFont(family="Helvetica", size=16)
+        self.my_font = ctk.CTkFont(family="Helvetica", size=12, underline=True)
+        self.my_font1 = ctk.CTkFont(family="Helvetica", size=12)
 
         # INIT SELF
         self.rowconfigure((0, 1, 2), weight=1)
@@ -45,7 +45,7 @@ class CreateFrameMajorSubject(ctk.CTkFrame):
         self.columns_specific = ['Bezeichnung', 'LP1', 'Empf. Beginn2', 'Bindung3']
 
         # UNDERFRAME CHECKBOXES
-        self.under_frame_chk = ctk.CTkScrollableFrame(self, width=600, height=600)
+        self.under_frame_chk = ctk.CTkScrollableFrame(self, width=600, height=600, fg_color="transparent")
         self.under_frame_chk.grid(row=1, column=0, sticky="nsew", padx=10, pady=10)
 
         # DATA CHECKBOXES VALUES
@@ -100,6 +100,7 @@ class CreateFrameMajorSubject(ctk.CTkFrame):
     def major_df_update(self):
         self.df_object.force_major_update()
         self.refresh()
+        print('refreshed')
 
     def refresh(self):
         self.destroy()

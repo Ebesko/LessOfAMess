@@ -1,9 +1,9 @@
 Kernfach Geschichte: 
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Nebenfach 1:
-Anglistik: British and American Studies
+Latein: Die römische Literatur, Kultur und Gesellschaft im europäischen Kontext
 minors_data
-[0, 0, 0, 0, 0, 0, 0, 0, 0]
+[0, 0, 0, 0, 0, 0, 0, 0]
 Nebenfach 2:
 None
 None

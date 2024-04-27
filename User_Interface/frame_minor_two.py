@@ -34,11 +34,11 @@ class CreateMiniMinorFrame(ctk.CTkFrame):
         self.minor_menu.set("Wählen...")
         self.minor_menu.grid(row=0, column=1, sticky="n", padx=10, pady=10)
 
-        # EXTRA FRAME
-        self.extra_frame = ctk.CTkFrame(self)
+        # EXTRA FRAME TO PUT CHECKBOXES AND POINTS IN
+        self.extra_frame = ctk.CTkFrame(self, fg_color="transparent")
         self.extra_frame.rowconfigure((0), weight=1)
         self.extra_frame.columnconfigure((0), weight=1)
-        self.extra_frame.grid(row=2, column=0, columnspan=2, sticky="nsew")
+        self.extra_frame.grid(row=2, column=0, columnspan=2, sticky="nsew", padx=10, pady=10)
 
     # GET MINOR
     def get_other_frame(self, minor1):
@@ -100,6 +100,7 @@ class CreateMiniMinorFrame(ctk.CTkFrame):
     def all_cleaned(self):
         if self.actual is not None:
             self.actual.delframe()
+            self.actual.del_error_frame1()
         self.minor_menu_var.set("Wählen...")
 
     ## RESTORE

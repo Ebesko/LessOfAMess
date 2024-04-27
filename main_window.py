@@ -18,17 +18,19 @@ class WindowMained:
         #self.dataframed_title = Major("https://ekvv.uni-bielefeld.de/sinfo/publ/variante/80471673?m").title()
 
         self.dataframed = Major("https://ekvv.uni-bielefeld.de/sinfo/publ/variante/80471673?m")
+
         # MINOR
         self.url_possible_minors = "https://ekvv.uni-bielefeld.de/sinfo/publ/variante/80471673"
-        self.object_available_minors = MS.Minor(self.url_possible_minors)
+        self.object_available_minors = MS.MinorList(self.url_possible_minors)
+        #print(type(self.object_available_minors))
 
         self.available_minors = self.object_available_minors.minors()
         self.available_miniminors = self.object_available_minors.mini_minors()
 
         ###APP
-        self.app = ctk.CTk()
+        self.app = ctk.CTk() # fg_color="gray"
         self.app.geometry("1800x800")
-        # ctk.set_appearance_mode("dark")
+        #ctk.set_appearance_mode("dark")
 
         self.app.title("Dashboard of courses")
         self.app.rowconfigure((0, 1, 2), weight=1)
@@ -56,8 +58,8 @@ class WindowMained:
         self.main_menu.add_cascade(label="Update Courses", menu=self.update_menu)
         self.update_menu.add_command(label="Update Major",
                                    command=lambda: self.major_frame.major_df_update())
-        self.update_menu.add_command(label="Update Minors",
-                                     command=lambda: self.minor_frame.minor_one_df_update())
+        self.update_menu.add_command(label="Update Minors", command=lambda: self.minor_frame.minor_one_df_update())
+
 
         ### Sogennant cemtary of the mess:
         # file_menu.add_command(label="Close", command=lambda: print("4"))

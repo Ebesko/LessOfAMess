@@ -6,7 +6,7 @@ import ast
 url_possible_minors = "https://ekvv.uni-bielefeld.de/sinfo/publ/variante/80471673"
 
 
-class Minor:
+class MinorList:
     """To get the modules names, points, semester and status for the choosen small minors_data as a dataframe"""
     def __init__(self, url_minor):
         self.url_minor = url_minor
@@ -110,4 +110,5 @@ class Minor:
 
 
 #available_minors = Minor(url_possible_minors)
+#available_minors.force_update_mini_minors()
 #print(available_minors.mini_minors())

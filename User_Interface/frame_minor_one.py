@@ -58,7 +58,7 @@ class CreateMinorFrame(ctk.CTkFrame):
         self.miniminor_menu.grid(row=1, column=1, sticky="n", padx=10, pady=10)
 
         # EXTRA FRAME TO PUT CHECKBOXES AND POINTS IN
-        self.extra_frame = ctk.CTkFrame(self)
+        self.extra_frame = ctk.CTkFrame(self, fg_color="transparent")
         self.extra_frame.rowconfigure((0), weight=1)
         self.extra_frame.columnconfigure((0), weight=1)
         self.extra_frame.grid(row=2, column=0, columnspan=2, sticky="nsew", padx=10, pady=10)
@@ -73,8 +73,6 @@ class CreateMinorFrame(ctk.CTkFrame):
         if self.actual is not None:
             self.actual.delframe()
         if choice != "Wählen...":
-        #if choice != "Wählen..." and self.actual is not None:
-            # self.actual.delframe()
             url = self.dict_minors[choice]
             dframed = Minor(url, choice).dfminor()
             self.actual = CheckboxesValued(self.extra_frame, dframed, True)
@@ -133,6 +131,7 @@ class CreateMinorFrame(ctk.CTkFrame):
         # self.object_source.force_minor_update()
         # self.object_source.updatecsvminor()
 
+        print(type(self.object_source))
         self.object_source.force_minor_update()
         self.refresh()
 

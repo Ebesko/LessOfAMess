@@ -22,6 +22,7 @@ class Major:
             self.df = pd.read_csv("./data/major.csv")
 
     def force_major_update(self):
+        print('in doing1')
         self.response = requests.get(self.url)
         self.soup = BeautifulSoup(self.response.text, 'html.parser')
 
@@ -58,6 +59,7 @@ class Major:
 
         self.out_major = self.df[self.columns_specific]
         self.updatecsvmajor()
+        print("finished1")
 
     def title(self):
         return self.title_text
